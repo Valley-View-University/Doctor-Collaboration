@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Post;
+use Session;
+
 class PostController extends Controller
 {
     /**
@@ -14,7 +17,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        //displays all posts according to most recent post
+
+        $posts = Post::where('email as email')->orderBy('updated_at')->paginate(10);
+        return view('posts.index')->with('storedPosts', $posts);
+
     }
 
     /**
@@ -35,7 +42,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Store each post in database
+        $this->validate($request, [ 'newPostContent' => 'required|min:10|max:400',
+
+            ]);
+
+        $post = new Post;
+        $post->content = $request->newPostContent;
+        $post->timestamp = $request->newPostTime;
+        $post->email = $request->newPostEmail;
+        $post->field= $request->newPostField;
+        $post->save();
+
+        Session::flash('success', 'New Post has been successfully added!');
+        return redirect()->route('posts.index');
+
+
+
+
+
     }
 
     /**
@@ -58,6 +83,9 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+
+        $post = Post::find($id);
+        return view('posts.index')->('postUnderEdit', $post);
     }
 
     /**
@@ -69,7 +97,20 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //update post into database
+
+         $this->validate($request, [ 'newPostContent' => 'required|min:10|max:400',
+
+            ]);
+
+         $post = Post::find($id);
+        $post->content = $request->updatedPostContent;
+        $post->timestamp = $request->updatedPostTime;
+        $post->field= $request->updatedPostField;
+        $post->save();
+
+        Session::flash('success', 'Post has been succesfully updated');
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -81,5 +122,11 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+
+        $post = Post::find($id);
+        $post->delete();
+
+        Session::flash('success', 'post has been deleted');
+        return redirect()->route('posts.index');
     }
 }
