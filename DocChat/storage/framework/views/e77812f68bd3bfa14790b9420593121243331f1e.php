@@ -29,17 +29,24 @@
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="<?php echo e(old('email')); ?>" required>
 
+                                <br/>
+
                                 <select name="field">
                                     <option> Select a Field</option>
-                                    <option>Cardiology</option>
-                                    <option>Dermatology</option>
-                                    <option>Oncology</option>
-                                    <option>Geriatry</option>
-                                    <option>Pediatrics</option>
-                                    <option>Endocrinology</option>
-                                    <option>Radiology</option>
+                                    <option value="Cardiology">Cardiology</option>
+                                    <option value="Dermatology">Dermatology</option>
+                                    <option value="Oncology">Oncology</option>
+                                    <option value="Geriatry">Geriatry</option>
+                                    <option value="Pediatrics">Pediatrics</option>
+                                    <option value="Endocrinology">Endocrinology</option>
+                                    <option value="Radiology">Radiology</option>
 
                                 </select>
+
+                                <br/>
+                                <br/>
+
+                                <input type="number" size="2" name="yoe" placeholder="Enter your years of experience"> 
 
                                 <?php if($errors->has('email')): ?>
                                     <span class="help-block">

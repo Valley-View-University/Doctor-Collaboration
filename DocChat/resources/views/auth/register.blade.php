@@ -44,6 +44,11 @@
 
                                 </select>
 
+                                <br/>
+                                <br/>
+
+                                <input type="number" size="2" name="yoe" placeholder="Enter your years of experience"> 
+
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
