@@ -32,8 +32,8 @@
 
                                 <br/>
 
-                                <select name="field">
-                                    <option> Select a Field</option>
+                                <select name="field" required>
+                                    <option value="Empty"> Select a Field</option>
                                     <option value="Cardiology">Cardiology</option>
                                     <option value="Dermatology">Dermatology</option>
                                     <option value="Oncology">Oncology</option>
