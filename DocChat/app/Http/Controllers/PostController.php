@@ -105,9 +105,14 @@ class PostController extends Controller
             ]);
 
          $post = Post::find($id);
-        $post->content = $request->updatedPostContent;
+        /*$post->content = $request->updatedPostContent;
         $post->timestamp = $request->updatedPostTime;
         $post->field= $request->updatedPostField;
+        $post->save();*/
+
+        $post->postContent = $request->updatedPostContent;
+        $post->created_at = $request->updatedPostTime;
+        $post->postField= $request->updatedPostField;
         $post->save();
 
         Session::flash('success', 'Post has been succesfully updated');
