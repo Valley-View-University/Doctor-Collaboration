@@ -63,7 +63,8 @@
 
  	
  		
- 		<input type="text" name="newPostContent" class="form-control" placeholder="Enter Post Here">
+ 		<!-- <input type="textarea" name="newPostContent" class="form-control" placeholder="Enter Post Here"> -->
+ 		<textarea name="newPostContent" class="form-control" placeholder="Enter Post Here"></textarea>
 
  		<br/>
 
@@ -82,6 +83,8 @@
  			
 
  		</select>
+
+ 		<!-- <input type="file" name="Upload"> -->
 
  		<input type="hidden" name="newPostEmail" value="{{ Auth::user()->email }}">
 
