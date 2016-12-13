@@ -132,11 +132,11 @@
 			<tr>
 
 
-			<td>{{$storedPost -> content}}</td>
+			<td>{{$storedPost->postContent}}</td>
 
-			<td>{{$storedPost -> field}}</td>
+			<td>{{$storedPost->postField}}</td>
 
-			<td>{{$storedTPost -> email}}</td>
+			<!-- <td>{{$storedPost->postEmail}}</td> -->
 
 			<td><a href="{{route('posts.edit',['posts'=>$storedPost->id])}}" class="btn btn-default">Edit</a></td>
 

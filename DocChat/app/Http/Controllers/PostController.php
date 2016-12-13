@@ -48,10 +48,10 @@ class PostController extends Controller
             ]);
 
         $post = new Post;
-        $post->content = $request->newPostContent;
-        $post->timestamp = $request->newPostTime;
-        $post->email = $request->newPostEmail;
-        $post->field= $request->newPostField;
+        $post->postContent = $request->newPostContent;
+        $post->created_at = $request->newPostTime;
+        $post->postEmail = $request->newPostEmail;
+        $post->postField= $request->newPostField;
         $post->save();
 
         Session::flash('success', 'New Post has been successfully added!');
@@ -85,7 +85,8 @@ class PostController extends Controller
         //
 
         $post = Post::find($id);
-        return view('posts.index','postUnderEdit', $post);
+        /*return view('posts.index','postUnderEdit', $post);*/
+        return view('posts.edit')->with('postUnderEdit', $post);
     }
 
     /**
