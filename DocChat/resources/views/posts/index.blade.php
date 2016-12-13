@@ -1,6 +1,6 @@
-@extends('layouts.menu')
+@extends('layouts.app')
 
-
+@section('content')
 @if (Auth::guest())
 <h1>You Have Not Logged In</h1>
 @else
@@ -168,4 +168,5 @@
 
 @endif
 </div>
+@endsection
 

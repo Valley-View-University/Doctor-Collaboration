@@ -19,7 +19,7 @@ class PostController extends Controller
     {
         //displays all posts according to most recent post
 
-        $posts = Post::where('email as email')->orderBy('updated_at')->paginate(10);
+        $posts = Post::orderBy('updated_at','asc')->get();
         return view('posts.index')->with('storedPosts', $posts);
 
     }
@@ -85,7 +85,7 @@ class PostController extends Controller
         //
 
         $post = Post::find($id);
-        return view('posts.index')->('postUnderEdit', $post);
+        return view('posts.index','postUnderEdit', $post);
     }
 
     /**
