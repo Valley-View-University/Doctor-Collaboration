@@ -1,11 +1,7 @@
-
-
-@extends('layouts.app')
-
-@section('content')
-@if (Auth::guest())
+<?php $__env->startSection('content'); ?>
+<?php if(Auth::guest()): ?>
 <h1>You Have Not Logged In</h1>
-@else
+<?php else: ?>
 
 <div class="container">
   <div class="col-md-offset-2 col-md-8">
@@ -13,32 +9,34 @@
       <h1>Edit Post</h1>
     </div>
 
-    {{-- display success message --}}
-    @if (Session::has('success'))
+    
+    <?php if(Session::has('success')): ?>
       <div class="alert alert-success">
-        <strong>Success:</strong> {{ Session::get('success') }}
-      </div>
-    @endif
+        <strong>Success:</strong> <?php echo e(Session::get('success')); ?>
 
-    {{-- display error message --}}
-    @if (count($errors) > 0)
+      </div>
+    <?php endif; ?>
+
+    
+    <?php if(count($errors) > 0): ?>
       <div class="alert alert-danger">
         <strong>Error:</strong>
         <ul>
-          @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
+          <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+            <li><?php echo e($error); ?></li>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
         </ul>
       </div>
-    @endif
+    <?php endif; ?>
 
     <div class="row">
-      <form action="{{ route('posts.update', [$postUnderEdit->id]) }}" method='POST'>
-      {{ csrf_field() }}
+      <form action="<?php echo e(route('posts.update', [$postUnderEdit->id])); ?>" method='POST'>
+      <?php echo e(csrf_field()); ?>
+
       <input type="hidden" name='_method' value='PUT'>
 
         <div class="form-group">
-          <input type="text" name='updatedPostContent' class='form-control input-lg' value='{{ $postUnderEdit->postContent }}'>
+          <input type="text" name='updatedPostContent' class='form-control input-lg' value='<?php echo e($postUnderEdit->postContent); ?>'>
         </div>
 
         <br/>
@@ -47,7 +45,7 @@
 
  		<select name="updatedPostField" required>
 
- 		 
+ 		 <
                                     <option value="Cardiology">Cardiology</option>
                                     <option value="Dermatology">Dermatology</option>
                                     <option value="Oncology">Oncology</option>
@@ -72,4 +70,5 @@
  
   </div>
 </div>
-@endif
+<?php endif; ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

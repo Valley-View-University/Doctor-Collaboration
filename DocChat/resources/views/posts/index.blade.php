@@ -64,15 +64,15 @@
  	
  		
  		<!-- <input type="textarea" name="newPostContent" class="form-control" placeholder="Enter Post Here"> -->
- 		<textarea name="newPostContent" class="form-control" placeholder="Enter Post Here"></textarea>
+ 		<textarea name="newPostContent" class="form-control" placeholder="Enter Post Here" required></textarea>
 
  		<br/>
 
  		Select Field
 
- 		<select name="newPostField">
+ 		<select name="newPostField" required>
 
- 		 <option> Select a Field</option>
+ 		 <
                                     <option value="Cardiology">Cardiology</option>
                                     <option value="Dermatology">Dermatology</option>
                                     <option value="Oncology">Oncology</option>
@@ -84,9 +84,10 @@
 
  		</select>
 
- 		<!-- <input type="file" name="Upload"> -->
+ 		
 
  		<input type="hidden" name="newPostEmail" value="{{ Auth::user()->email }}">
+ 		<input type="hidden" name="newPostName" value="{{ Auth::user()->name }}">
 
  	</div>
  	
@@ -111,51 +112,10 @@
 
 		@if(count($storedPosts) >0)
 
+<br/>
 
+<br/>
 
-<table class="table">
-	
-	<thead>
-		
-		<th>POST</th>
-
-		<th>Field</th>
-		<th>Edit</th>
-		<th>Delete</th>
-
-
-	</thead>
-
-	<tbody>
-			@foreach($storedPosts as $storedPost)
-
-			<tr>
-
-
-			<td>{{$storedPost->postContent}}</td>
-
-			<td>{{$storedPost->postField}}</td>
-
-			<!-- <td>{{$storedPost->postEmail}}</td> -->
-
-			<td><a href="{{route('posts.edit',['posts'=>$storedPost->id])}}" class="btn btn-default">Edit</a></td>
-
-			<td><form action="{{ route('posts.destroy',['posts'=>$storedPost->id])}}" method="POST">
-
-			{{ csrf_field() }}
-
-			<input type="hidden" name="_method" value="DELETE">
-				
-				<input type="submit" class="btn btn-danger" value="delete">
-			</form></td>
-
-			</tr>
-
-
-			@endforeach
-			
-		</tbody>
-</table>
 
 
 
@@ -169,7 +129,63 @@
 
 	</div>
 
+<hr/>
+
+<br/>
+
+@foreach($storedPosts as $storedPost)
+<div class="container"> 
+
+	
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Created At {{$storedPost -> created_at}}</h3>
+  </div>
+  <div class="panel-body">
+  {{$storedPost -> postContent}}
+  </div>
+  <div class="panel-footer">
+
+
+  <b>Field: {{$storedPost -> postField}}. Posted By: {{$storedPost -> postName}} </b>
+
+  <a href="{{route('posts.show',['posts'=>$storedPost->id])}}" class="btn btn-default">Comment</a>
+
+@if( $storedPost->postEmail == Auth::user()->email )
+
+
+  
+  <a href="{{route('posts.edit',['posts'=>$storedPost->id])}}" class="btn btn-default">Edit</a>
+
+  
+
+			<form action="{{ route('posts.destroy',['posts'=>$storedPost->id])}}" method="POST">
+
+			{{ csrf_field() }}
+
+			<input type="hidden" name="_method" value="DELETE">
+				
+				<input type="submit" class="btn btn-danger" value="delete">
+			</form>
+  
 @endif
+       
+
+       </div>
+  </div>
+
+
+
+
 </div>
+
+
+
+
+@endforeach
+
+@endif
+
 @endsection
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Post;
+use App\Comment;
 use Session;
 
 class PostController extends Controller
@@ -19,7 +20,7 @@ class PostController extends Controller
     {
         //displays all posts according to most recent post
 
-        $posts = Post::orderBy('updated_at','asc')->get();
+        $posts = Post::orderBy('updated_at','desc')->get();
         return view('posts.index')->with('storedPosts', $posts);
 
     }
@@ -49,8 +50,9 @@ class PostController extends Controller
 
         $post = new Post;
         $post->postContent = $request->newPostContent;
-        $post->created_at = $request->newPostTime;
+       
         $post->postEmail = $request->newPostEmail;
+         $post->postName = $request->newPostName;
         $post->postField= $request->newPostField;
         $post->save();
 
@@ -71,7 +73,20 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        //We used this function to moderate comments on posts. Error kept displaying in comment function
+
+        $post = Post::find($id);
+        return view('posts.comments')->with('postUnderComment', $post);
+
+        $this->validate($request, [ 'newCommentContent' => 'required|min:10|max:400',
+
+            ]);
+
+       
+        
+        
+
+
     }
 
     /**
@@ -84,9 +99,9 @@ class PostController extends Controller
     {
         //
 
-        $post = Post::find($id);
-        /*return view('posts.index','postUnderEdit', $post);*/
+       $post = Post::find($id);
         return view('posts.edit')->with('postUnderEdit', $post);
+       
     }
 
     /**
@@ -100,19 +115,14 @@ class PostController extends Controller
     {
         //update post into database
 
-         $this->validate($request, [ 'newPostContent' => 'required|min:10|max:400',
+         $this->validate($request, [ 'updatedPostContent' => 'required|min:10|max:400',
 
             ]);
 
          $post = Post::find($id);
-        /*$post->content = $request->updatedPostContent;
-        $post->timestamp = $request->updatedPostTime;
-        $post->field= $request->updatedPostField;
-        $post->save();*/
-
         $post->postContent = $request->updatedPostContent;
-        $post->created_at = $request->updatedPostTime;
-        $post->postField= $request->updatedPostField;
+        
+        $post->postField =$request->updatedPostField;
         $post->save();
 
         Session::flash('success', 'Post has been succesfully updated');
@@ -135,4 +145,8 @@ class PostController extends Controller
         Session::flash('success', 'post has been deleted');
         return redirect()->route('posts.index');
     }
+
+   
+
+    
 }
